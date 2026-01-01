@@ -155,3 +155,5 @@ class Course:
 
     def is_full(self):
         return len(self.students_id_list)>=self.max_students
+    
+print("s")
