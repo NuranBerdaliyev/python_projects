@@ -1,4 +1,5 @@
-
+users=[]
+courses=[]
 class User:
     user_count = 1
     allowed_roles = {'Teacher', 'Student'}
@@ -19,6 +20,7 @@ class User:
         else:
             raise TypeError("Wrong type for role")
         User.user_count+=1
+        users.append(self)
     def get_info(self):
         return f"General information about user {self.id}:\n \
             ID: {self.id}  |  Name: {self.name} | Email: {self.email} | Role: {self.role}"
@@ -125,6 +127,7 @@ class Course:
         else:
             raise TypeError("Wrong Type for teacher_id")
         Course.course_count+=1
+        courses.append(self)
 
 
     def add_student(self, student):
@@ -155,5 +158,17 @@ class Course:
 
     def is_full(self):
         return len(self.students_id_list)>=self.max_students
+
+def find_user_by_id(user_id):
+    for user in users:
+        if user.id == user_id:
+            return user
+    return None
+def find_course_by_id(course_id):
+    for course in courses:
+        if course.id == course_id:
+            return course
+    return None
+    
     
 print("s")
