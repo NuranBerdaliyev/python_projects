@@ -53,16 +53,18 @@ class Student(User):
     def enroll_course(self, course):
         if isinstance(course, Course):
             if course.id not in self.courses_id_list:
-                self.courses_id_list.append(course.id)
                 course.add_student(self)
+                self.courses_id_list.append(course.id)
+                
         else:
             raise TypeError("Wrong type for course")
         
     def drop_course(self, course):
         if isinstance(course, Course):
             if course.id in self.courses_id_list:
-                self.courses_id_list.remove(course.id)
                 course.remove_student(self)
+                self.courses_id_list.remove(course.id)
+                
         else:
             raise TypeError("Wrong type for course")
     
@@ -141,8 +143,7 @@ class Course:
 
     def assign_teacher(self, teacher_id):
         if isinstance(teacher_id, int):
-            if teacher_id!=None:
-                self.teacher_id=teacher_id
+            self.teacher_id=teacher_id
         else:
             raise TypeError("Wrong type for teacher_id")
             
@@ -152,7 +153,7 @@ class Course:
             if student.id in self.students_id_list:
                 self.students_id_list.remove(student.id)
             else:
-                return "Your student is already removed or he has not been in this course"
+                raise ValueError("Your student is already removed or he has not been in this course")
         else:
             raise TypeError("Wrong type of student")
 
@@ -169,6 +170,74 @@ def find_course_by_id(course_id):
         if course.id == course_id:
             return course
     return None
-    
-    
-print("s")
+print("Welcome to my first local system!")
+while True:
+    i=int(input("You can choose one of these options by entering its point number:\n" \
+          + "0. Exit\n1. Add teacher\n2. Add course\n3. Add student\n4. Assign student to course\n5. Assign teacher to course\n"))
+    if i==1:
+        name=input("Enter the name: ")
+        email=input("Enter the email: ")
+        course_teaching_id_set=set()
+        t=Teacher(name, email, course_teaching_id_set)
+        print("Teacher is added successfully!")
+    elif i==2:
+        title=input("Enter the title: ")
+        max_students=int(input("How much students are there who can enroll the course? "))
+        students_id_l=[]
+        c=Course(title, max_students, students_id_l)
+        print("Course is added successfully!")
+    elif i==3:
+        name=input("Enter the name: ")
+        email=input("Enter the email: ")
+        courses_id_list=[]
+        grades_d={}
+        s=Student(name, email, courses_id_list, grades_d)
+        print("Student is added successfully!")
+    elif i==4:
+        str1=""
+        for u in users:
+            if isinstance(u, Student):
+                str1+=f"Id | Name | Email | Role \n\
+                    {str(u.id)} | {u.name} | {u.email} | {u.role}"
+                str1+="\n"
+        print(str1)
+        student_id=int(input("Choose the student_id: "))
+        str2=""
+        for c in courses:
+            if isinstance(c, Course):
+                str2+=f"ID | Title | Max_students | Teacher_id \n\
+                    {c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
+                str2+="\n"
+        course_id=int(input("Choose the course_id: "))
+        student=find_user_by_id(student_id)
+        course=find_course_by_id(course_id)
+        if isinstance(student, Student):
+            student.enroll_course(course)
+        print("Student was assigned to course successfully!")
+    elif i==5:
+        str1=""
+        for u in users:
+            if isinstance(u, Teacher):
+                str1+=f"Id | Name | Email | Role \n\
+                    {str(u.id)} | {u.name} | {u.email} | {u.role}"
+                str1+="\n"
+        print(str1)
+        teacher_id=int(input("Choose the teacher_id: "))
+        str2=""
+        for c in courses:
+            if isinstance(c, Course):
+                str2+=f"ID | Title | Max_students | Teacher_id \n\
+                    {c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
+                str2+="\n"
+        course_id=int(input("Choose the course_id: "))
+        teacher=find_user_by_id(teacher_id)
+        course=find_course_by_id(course_id)
+        if isinstance(teacher, Teacher):
+            teacher.assign_course(course)
+        print("Teacher was assigned to course successfully!")
+    elif i==0:
+        print("Bye-Bye!")
+        break
+
+
+                    
