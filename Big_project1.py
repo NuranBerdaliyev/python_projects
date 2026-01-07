@@ -72,6 +72,7 @@ class Student(User):
         else:
             raise TypeError("Wrong type for course")
 
+
     def get_average_grade(self):
         if len(self.grades_d.values())<=0:
             return None
@@ -171,7 +172,8 @@ print("Welcome to my first local system!")
 while True:
     i=int(input("You can choose one of these options by entering its point number:\n" \
     + "0. Exit\n1. Add teacher\n2. Add course\n3. Add student\n4. Assign student to course\n5. Assign teacher to course\n"\
-        + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of courses"))
+        + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of courses"\
+        + "10. Look at the grades of student\n11. Look at course_list of teacher\n12. Look at course_list of student\n"))
     header="Id | Name | Email | Role"
     if i==1:
         name=input("Enter the name: ")
@@ -256,6 +258,7 @@ while True:
             student.drop_course(course)
         print("Student was dropped from course successfully!")
     elif i==7:
+        str2=""
         print(header)
         for c in courses:
             if isinstance(c, Course):
@@ -286,6 +289,41 @@ while True:
             print("The student got the grade successfully!")
         else:
             raise TypeError("Wrong type for course")
+    elif i==8:
+        for u in users:
+            print(str(u.id), end=" ")
+    elif i==9:
+        for c in courses:
+            print(str(c.id), end=" ")
+    elif i==10:
+        s_id=int(input("Enter the student's id: "))
+        s=find_user_by_id(s_id)
+        
+        if not isinstance(s, Student):
+            raise TypeError("You entered teacher's id, not student's. Or you entered not existing id.")
+        for key, value in s.grades_d.items():
+            print(f"Subject's ID: {key}; Grade: {value}\n")
+        print(f"Average grade: {s.get_average_grade()}")
+    elif i==11:
+        t_id = int(input("Enter the teacher_id: "))
+        t=find_user_by_id(t_id)
+        if isinstance(t, Teacher):
+            li=t.courses_id_teaching_set
+            print("Course set which teacher teach:\n")
+            for c_id in li:
+                c=find_course_by_id(c_id)
+                if isinstance(c, Course):
+                    print(c)
+    elif i==12: 
+        s_id=int(input("Enter the student_id: "))
+        s=find_user_by_id(s_id)
+        if isinstance(s, Student):
+            li=s.courses_id_list
+            print("Course list which student study in: \n")
+            for c_id in li:
+                c=find_course_by_id(c_id)
+                if isinstance(c, Course):
+                    print(c)
     elif i==0:
         print("Bye-Bye!")
         break
