@@ -50,6 +50,7 @@ class Student(User):
             if course.id not in self.courses_id_set:
                 course.add_student(self)
                 self.courses_id_set.add(course.id)
+                self.grades_d[course_id]=None
                 
         else:
             raise TypeError("Wrong type for course")
@@ -58,7 +59,8 @@ class Student(User):
         if isinstance(course, Course):
             if course.id in self.courses_id_set:
                 course.remove_student(self)
-                self.courses_id_set.discard(course.id)
+                self.courses_id_set.discard(course_id)
+                self.grades_d.pop(course_id)
                 
         else:
             raise TypeError("Wrong type for course")
@@ -67,7 +69,7 @@ class Student(User):
         if isinstance(course, Course):
             if course.id in self.courses_id_set and 0<grade<=5:
                 self.grades_d[course.id]=grade
-            elif grade<=0 or grade>5:
+            else:
                 raise ValueError("Wrong value for grade")
         else:
             raise TypeError("Wrong type for course")
@@ -116,7 +118,7 @@ class Course:
         else:
             raise TypeError("Wrong type for max_students")
         self.teacher_id=None  
-        self.students_id_list=[]
+        self.students_id_set=set()
         Course.course_count+=1
         courses.append(self)
 
@@ -124,7 +126,7 @@ class Course:
     def get_info(self):
         return f"General information about course:\n" +\
         f"ID: {self.id} | Title: {self.title}"+\
-        f" | Real amount of students who enrolled {len(self.students_id_list)} |  Maximum amount of students: {self.max_students}" +\
+        f" | Real amount of students who enrolled {len(self.students_id_set)} |  Maximum amount of students: {self.max_students}" +\
         f" | Course's teacher: {self.teacher_id}"
     
     def __str__(self):
@@ -132,10 +134,9 @@ class Course:
 
     def add_student(self, student):
         if isinstance(student, Student):
-            if student.id not in self.students_id_list and not self.is_full():
-                self.students_id_list.append(student.id)
-            else:
-                raise ValueError("Your student already exists or there is no place for him")
+            if not self.is_full():
+                self.students_id_set.add(student.id)
+            
         else:
             raise TypeError("Wrong type of student")
 
@@ -148,15 +149,15 @@ class Course:
         
     def remove_student(self, student):
         if isinstance(student, Student):
-            if student.id in self.students_id_list:
-                self.students_id_list.remove(student.id)
+            if student.id in self.students_id_set:
+                self.students_id_set.remove(student.id)
             else:
                 raise ValueError("Your student is already removed or he has not been in this course")
         else:
             raise TypeError("Wrong type of student")
 
     def is_full(self):
-        return len(self.students_id_list)>=self.max_students
+        return len(self.students_id_set)>=self.max_students
 
 def find_user_by_id(user_id):
     for user in users:
@@ -175,7 +176,7 @@ while True:
         + "0. Exit\n1. Add teacher\n2. Add course\n3. Add student\n4. Assign student to course\n5. Assign teacher to course\n"\
         + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of courses\n"\
         + "10. Look at the grades of student\n11. Look at course_list of teacher\n12. Look at course_list of student\n"))
-    except ValueError or TypeError:
+    except (ValueError, TypeError):
         print("Wrong type. Only string words")
         continue
     header="Id | Name | Email | Role"
@@ -186,16 +187,17 @@ while True:
         try:
             t=Teacher(name, email)
             print("Teacher is added successfully!")
-        except TypeError or ValueError:
+        except (TypeError, ValueError):
             print("Not valid data")
             continue
     elif i==2:
-        title=input("Enter the title: ")
-        if title!=title.strip():
-            print("You have to enter title without whitespaces at the beginning and at the end")
+        title=input("Enter the title: ").strip()
+        if not title:
+            print("Must not be empty")
+            continue
         try:
             max_students=int(input("How much students are there who can enroll the course? "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Title is string, max_students is integer")
             continue
         try:
@@ -210,7 +212,7 @@ while True:
         try:
             s=Student(name, email)
             print("Student is added successfully!")
-        except TypeError or ValueError:
+        except (TypeError, ValueError):
             print("Not valid data")
             continue
     
@@ -223,7 +225,7 @@ while True:
                 print(str1)
         try:
             student_id=int(input("Choose the student_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         str2=""
@@ -234,7 +236,7 @@ while True:
                 print(str2)
         try:
             course_id=int(input("Choose the course_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         
@@ -248,6 +250,7 @@ while True:
             continue
         student.enroll_course(course)
         
+        
         print("Student was assigned to course successfully!")
     elif i==5:
         str1=""
@@ -258,7 +261,7 @@ while True:
                 print(str1)
         try:
             teacher_id=int(input("Choose the teacher_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         str2=""
@@ -269,7 +272,7 @@ while True:
                 print(str2)
         try:
             course_id=int(input("Choose the course_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue  
         teacher=find_user_by_id(teacher_id)
@@ -291,7 +294,7 @@ while True:
                 print(str1)
         try:
             student_id=int(input("Choose the student_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         str2=""
@@ -302,7 +305,7 @@ while True:
                 print(str2)
         try:
             course_id=int(input("Choose the course_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         student=find_user_by_id(student_id)
@@ -325,7 +328,7 @@ while True:
                 print(str2)
         try:
             course_id=int(input("Choose the course_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         
@@ -338,7 +341,7 @@ while True:
                 print(str1)
         try:
             student_id=int(input("Choose the student_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         
@@ -355,8 +358,8 @@ while True:
             continue
         try:
             grade=int(input("What is the grade you want to set? "))
-        except ValueError or TypeError:
-            print("Wrong type. Only integer")
+        except (ValueError, TypeError):
+            print("Wrong type. Only integer. Grade has to be between ")
             continue
         t=find_user_by_id(course.teacher_id)
         if not isinstance(t, Teacher):
@@ -376,7 +379,7 @@ while True:
     elif i==10:
         try:
             s_id=int(input("Enter the student's id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         
@@ -390,7 +393,7 @@ while True:
     elif i==11:
         try:
             t_id = int(input("Enter the teacher_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         t=find_user_by_id(t_id)
@@ -406,7 +409,7 @@ while True:
     elif i==12: 
         try:
             s_id=int(input("Enter the student_id: "))
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             print("Wrong type. Only integer")
             continue
         s=find_user_by_id(s_id)
