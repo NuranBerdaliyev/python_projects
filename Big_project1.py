@@ -47,20 +47,18 @@ class Student(User):
 
     def enroll_course(self, course):
         if isinstance(course, Course):
-            if course.id not in self.courses_id_set:
-                course.add_student(self)
-                self.courses_id_set.add(course.id)
-                self.grades_d[course_id]=None
+            course.add_student(self)
+            self.courses_id_set.add(course.id)
+            self.grades_d[course.id]=None
                 
         else:
             raise TypeError("Wrong type for course")
         
     def drop_course(self, course):
         if isinstance(course, Course):
-            if course.id in self.courses_id_set:
-                course.remove_student(self)
-                self.courses_id_set.discard(course_id)
-                self.grades_d.pop(course_id)
+            course.remove_student(self)
+            self.courses_id_set.discard(course.id)
+            self.grades_d.pop(course.id)
                 
         else:
             raise TypeError("Wrong type for course")
@@ -78,8 +76,9 @@ class Student(User):
     def get_average_grade(self):
         if len(self.grades_d.values())<=0:
             return None
-        l=len(self.grades_d.values())
-        avr=float(sum(self.grades_d.values())/l)
+        grades=[g for g in self.grades_d.values() if g is not None]
+        l=len(grades)
+        avr=float(sum(grades)/l)
         return avr
 
 class Teacher(User):
@@ -134,9 +133,10 @@ class Course:
 
     def add_student(self, student):
         if isinstance(student, Student):
-            if not self.is_full():
+            if student.id not in self.students_id_set and not self.is_full():
                 self.students_id_set.add(student.id)
-            
+            elif self.is_full():
+                raise ValueError("Course is full")
         else:
             raise TypeError("Wrong type of student")
 
@@ -152,7 +152,7 @@ class Course:
             if student.id in self.students_id_set:
                 self.students_id_set.remove(student.id)
             else:
-                raise ValueError("Your student is already removed or he has not been in this course")
+                raise ValueError("This student is not enrolled in this course")
         else:
             raise TypeError("Wrong type of student")
 
@@ -248,7 +248,11 @@ while True:
         if not isinstance(course, Course):
             print("Course was not found")
             continue
-        student.enroll_course(course)
+        try:
+            student.enroll_course(course)
+        except (ValueError, TypeError):
+            print("Not enrolled, maybe student was already enrolled")
+            continue
         
         
         print("Student was assigned to course successfully!")
@@ -316,7 +320,11 @@ while True:
         if not isinstance(course, Course):
             print("Course was not found")
             continue
-        student.drop_course(course)
+        try:
+            student.drop_course(course)
+        except (ValueError, TypeError):
+            print("Not dropped, maybe student was already dropped")
+            continue
         
         print("Student was dropped from course successfully!")
     elif i==7:
