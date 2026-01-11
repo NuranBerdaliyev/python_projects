@@ -169,266 +169,270 @@ def find_course_by_id(course_id):
         if course.id == course_id:
             return course
     return None
-print("Welcome to my first local system!")
-while True:
-    try:
-        i=int(input("You can choose one of these options by entering its point number:\n" \
-        + "0. Exit\n1. Add teacher\n2. Add course\n3. Add student\n4. Assign student to course\n5. Assign teacher to course\n"\
-        + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of courses\n"\
-        + "10. Look at the grades of student\n11. Look at course_list of teacher\n12. Look at course_list of student\n"))
-    except (ValueError, TypeError):
-        print("Wrong type. Only string words")
-        continue
-    header="Id | Name | Email | Role"
-    header2="Id | Title | Max_students | Teacher_id"
-    if i==1:
-        name=input("Enter the name: ")
-        email=input("Enter the email: ")
+def main():
+    print("Welcome to my first local system!")
+    while True:
         try:
-            t=Teacher(name, email)
-            print("Teacher is added successfully!")
-        except (TypeError, ValueError):
-            print("Not valid data")
-            continue
-    elif i==2:
-        title=input("Enter the title: ").strip()
-        if not title:
-            print("Must not be empty")
-            continue
-        try:
-            max_students=int(input("How much students are there who can enroll the course? "))
+            i=int(input("You can choose one of these options by entering its point number:\n" \
+            + "0. Exit\n1. Add teacher\n2. Add course\n3. Add student\n4. Assign student to course\n5. Assign teacher to course\n"\
+            + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of courses\n"\
+            + "10. Look at the grades of student\n11. Look at course_list of teacher\n12. Look at course_list of student\n"))
         except (ValueError, TypeError):
-            print("Wrong type. Title is string, max_students is integer")
+            print("Wrong type. Only string words")
             continue
-        try:
-            c=Course(title, max_students)
-            print("Course is added successfully!")
-        except TypeError:
-            print("Not valid data")
-            continue
-    elif i==3:
-        name=input("Enter the name: ")
-        email=input("Enter the email: ")
-        try:
-            s=Student(name, email)
-            print("Student is added successfully!")
-        except (TypeError, ValueError):
-            print("Not valid data")
-            continue
-    
-    elif i==4:
-        str1=""
-        print(header)
-        for u in users:
-            if isinstance(u, Student):
-                str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
-                print(str1)
-        try:
-            student_id=int(input("Choose the student_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        str2=""
-        print(header2)
-        for c in courses:
-            if isinstance(c, Course):
-                str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
-                print(str2)
-        try:
-            course_id=int(input("Choose the course_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
+        header="Id | Name | Email | Role"
+        header2="Id | Title | Max_students | Teacher_id"
+        if i==1:
+            name=input("Enter the name: ")
+            email=input("Enter the email: ")
+            try:
+                t=Teacher(name, email)
+                print("Teacher is added successfully!")
+            except (TypeError, ValueError):
+                print("Not valid data")
+                continue
+        elif i==2:
+            title=input("Enter the title: ").strip()
+            if not title:
+                print("Must not be empty")
+                continue
+            try:
+                max_students=int(input("How much students are there who can enroll the course? "))
+            except (ValueError, TypeError):
+                print("Wrong type. Title is string, max_students is integer")
+                continue
+            try:
+                c=Course(title, max_students)
+                print("Course is added successfully!")
+            except TypeError:
+                print("Not valid data")
+                continue
+        elif i==3:
+            name=input("Enter the name: ")
+            email=input("Enter the email: ")
+            try:
+                s=Student(name, email)
+                print("Student is added successfully!")
+            except (TypeError, ValueError):
+                print("Not valid data")
+                continue
         
-        student=find_user_by_id(student_id)
-        course=find_course_by_id(course_id)
-        if not isinstance(student, Student):
-            print("Student was not found")
-            continue
-        if not isinstance(course, Course):
-            print("Course was not found")
-            continue
-        try:
-            student.enroll_course(course)
-        except (ValueError, TypeError):
-            print("Not enrolled, maybe student was already enrolled")
-            continue
-        
-        
-        print("Student was assigned to course successfully!")
-    elif i==5:
-        str1=""
-        print(header)
-        for u in users:
-            if isinstance(u, Teacher):
-                str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
-                print(str1)
-        try:
-            teacher_id=int(input("Choose the teacher_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        str2=""
-        print(header2)
-        for c in courses:
-            if isinstance(c, Course):
-                str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
-                print(str2)
-        try:
-            course_id=int(input("Choose the course_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue  
-        teacher=find_user_by_id(teacher_id)
-        course=find_course_by_id(course_id)
-        if not isinstance(teacher, Teacher):
-            print("Teacher was not found")
-            continue
-        if not isinstance(course, Course):
-            print("Course was not found")
-            continue
-        teacher.assign_course(course)
-        print("Teacher was assigned to course successfully!")
-    elif i==6:
-        str1=""
-        print(header)
-        for u in users:
-            if isinstance(u, Student):
-                str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
-                print(str1)
-        try:
-            student_id=int(input("Choose the student_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        str2=""
-        print(header2)
-        for c in courses:
-            if isinstance(c, Course):
-                str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
-                print(str2)
-        try:
-            course_id=int(input("Choose the course_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        student=find_user_by_id(student_id)
-        course=find_course_by_id(course_id)
-        if not isinstance(student, Student):
-            print("Student was not found")
-            continue
-        if not isinstance(course, Course):
-            print("Course was not found")
-            continue
-        try:
-            student.drop_course(course)
-        except (ValueError, TypeError):
-            print("Not dropped, maybe student was already dropped")
-            continue
-        
-        print("Student was dropped from course successfully!")
-    elif i==7:
-        str2=""
-        print(header2)
-        for c in courses:
-            if isinstance(c, Course):
-                str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
-                print(str2)
-        try:
-            course_id=int(input("Choose the course_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        
+        elif i==4:
+            str1=""
+            print(header)
+            for u in users:
+                if isinstance(u, Student):
+                    str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
+                    print(str1)
+            try:
+                student_id=int(input("Choose the student_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            str2=""
+            print(header2)
+            for c in courses:
+                if isinstance(c, Course):
+                    str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
+                    print(str2)
+            try:
+                course_id=int(input("Choose the course_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            
+            student=find_user_by_id(student_id)
+            course=find_course_by_id(course_id)
+            if not isinstance(student, Student):
+                print("Student was not found")
+                continue
+            if not isinstance(course, Course):
+                print("Course was not found")
+                continue
+            try:
+                student.enroll_course(course)
+            except (ValueError, TypeError):
+                print("Not enrolled, maybe student was already enrolled")
+                continue
+            
+            
+            print("Student was assigned to course successfully!")
+        elif i==5:
+            str1=""
+            print(header)
+            for u in users:
+                if isinstance(u, Teacher):
+                    str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
+                    print(str1)
+            try:
+                teacher_id=int(input("Choose the teacher_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            str2=""
+            print(header2)
+            for c in courses:
+                if isinstance(c, Course):
+                    str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
+                    print(str2)
+            try:
+                course_id=int(input("Choose the course_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue  
+            teacher=find_user_by_id(teacher_id)
+            course=find_course_by_id(course_id)
+            if not isinstance(teacher, Teacher):
+                print("Teacher was not found")
+                continue
+            if not isinstance(course, Course):
+                print("Course was not found")
+                continue
+            teacher.assign_course(course)
+            print("Teacher was assigned to course successfully!")
+        elif i==6:
+            str1=""
+            print(header)
+            for u in users:
+                if isinstance(u, Student):
+                    str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
+                    print(str1)
+            try:
+                student_id=int(input("Choose the student_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            str2=""
+            print(header2)
+            for c in courses:
+                if isinstance(c, Course):
+                    str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
+                    print(str2)
+            try:
+                course_id=int(input("Choose the course_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            student=find_user_by_id(student_id)
+            course=find_course_by_id(course_id)
+            if not isinstance(student, Student):
+                print("Student was not found")
+                continue
+            if not isinstance(course, Course):
+                print("Course was not found")
+                continue
+            try:
+                student.drop_course(course)
+            except (ValueError, TypeError):
+                print("Not dropped, maybe student was already dropped")
+                continue
+            
+            print("Student was dropped from course successfully!")
+        elif i==7:
+            str2=""
+            print(header2)
+            for c in courses:
+                if isinstance(c, Course):
+                    str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
+                    print(str2)
+            try:
+                course_id=int(input("Choose the course_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            
 
-        str1=""
-        print(header)
-        for u in users:
-            if isinstance(u, Student):
-                str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
-                print(str1)
-        try:
-            student_id=int(input("Choose the student_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        
-        course=find_course_by_id(course_id)
-        student=find_user_by_id(student_id)
-        if not isinstance(student, Student):
-            print("Student was not found")
-            continue
-        if not isinstance(course, Course):
-            print("Course was not found")
-            continue
-        if course.teacher_id==None:
-            print("You cannot assign grade from the course without teacher who was assigned")
-            continue
-        try:
-            grade=int(input("What is the grade you want to set? "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer. Grade has to be between ")
-            continue
-        t=find_user_by_id(course.teacher_id)
-        if not isinstance(t, Teacher):
-            print("Teacher of this course is not teacher")
-            continue
-        t.grade_student(student, course, grade)
-        print("The student got the grade successfully!")
-        
-    elif i==8:
-        for u in users:
-            print(u)
-        print()
-    elif i==9:
-        for c in courses:
-            print(c)
-        print()
-    elif i==10:
-        try:
-            s_id=int(input("Enter the student's id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        
-        s=find_user_by_id(s_id)
-        if not isinstance(s, Student):
-            print("ID doesn't belong to student")
-            continue
-        for key, value in s.grades_d.items():
-            print(f"Subject's ID: {key}; Grade: {value}\n")
-        print(f"Average grade: {s.get_average_grade()}")
-    elif i==11:
-        try:
-            t_id = int(input("Enter the teacher_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        t=find_user_by_id(t_id)
-        if not isinstance(t, Teacher):
-            print("ID doesn't belong to teacher")
-            continue
-        li=t.courses_id_teaching_set
-        print("Course set which teacher teach:\n")
-        for c_id in li:
-            c=find_course_by_id(c_id)
-            print(c)
+            str1=""
+            print(header)
+            for u in users:
+                if isinstance(u, Student):
+                    str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
+                    print(str1)
+            try:
+                student_id=int(input("Choose the student_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            
+            course=find_course_by_id(course_id)
+            student=find_user_by_id(student_id)
+            if not isinstance(student, Student):
+                print("Student was not found")
+                continue
+            if not isinstance(course, Course):
+                print("Course was not found")
+                continue
+            if course.teacher_id==None:
+                print("You cannot assign grade from the course without teacher who was assigned")
+                continue
+            try:
+                grade=int(input("What is the grade you want to set? "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer. Grade has to be between ")
+                continue
+            t=find_user_by_id(course.teacher_id)
+            if not isinstance(t, Teacher):
+                print("Teacher of this course is not teacher")
+                continue
+            t.grade_student(student, course, grade)
+            print("The student got the grade successfully!")
+            
+        elif i==8:
+            for u in users:
+                print(u)
+            print()
+        elif i==9:
+            for c in courses:
+                print(c)
+            print()
+        elif i==10:
+            try:
+                s_id=int(input("Enter the student's id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            
+            s=find_user_by_id(s_id)
+            if not isinstance(s, Student):
+                print("ID doesn't belong to student")
+                continue
+            for key, value in s.grades_d.items():
+                print(f"Subject's ID: {key}; Grade: {value}\n")
+            print(f"Average grade: {s.get_average_grade()}")
+        elif i==11:
+            try:
+                t_id = int(input("Enter the teacher_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            t=find_user_by_id(t_id)
+            if not isinstance(t, Teacher):
+                print("ID doesn't belong to teacher")
+                continue
+            li=t.courses_id_teaching_set
+            print("Course set which teacher teach:\n")
+            for c_id in li:
+                c=find_course_by_id(c_id)
+                print(c)
 
-    elif i==12: 
-        try:
-            s_id=int(input("Enter the student_id: "))
-        except (ValueError, TypeError):
-            print("Wrong type. Only integer")
-            continue
-        s=find_user_by_id(s_id)
-        if not isinstance(s, Student):
-            print("ID doesn't belong to student")
-            continue
-        li=s.courses_id_set
-        print("Course set which student study in: \n")
-        for c_id in li:
-            c=find_course_by_id(c_id)
-            print(c)
-    elif i==0:
-        print("Bye-Bye!")
-        break
+        elif i==12: 
+            try:
+                s_id=int(input("Enter the student_id: "))
+            except (ValueError, TypeError):
+                print("Wrong type. Only integer")
+                continue
+            s=find_user_by_id(s_id)
+            if not isinstance(s, Student):
+                print("ID doesn't belong to student")
+                continue
+            li=s.courses_id_set
+            print("Course set which student study in: \n")
+            for c_id in li:
+                c=find_course_by_id(c_id)
+                print(c)
+        elif i==0:
+            print("Bye-Bye!")
+            break
+
+if __name__=="__main__":
+    main()
