@@ -1,6 +1,7 @@
-users=[]
-courses=[]
+
+
 class User:
+    users=[]
     user_count = 1
     allowed_roles = {'Teacher', 'Student'}
     def __init__(self, name, email, role):
@@ -8,7 +9,7 @@ class User:
         if isinstance(name, str):
             self.name=name
         else:
-            raise TypeError("Wrong type for name") 
+            raise WrongNameType("Wrong type for name") 
         self.validate_email(email)
         self.email=email
             
@@ -16,11 +17,11 @@ class User:
             if role in User.allowed_roles:
                 self.role=role  
             else:
-                raise ValueError("Role is neither Teacher nor Student")
+                raise WrongRoleValue("Role is neither Teacher nor Student")
         else:
-            raise TypeError("Wrong type for role")
+            raise WrongRoleType("Wrong type for role")
         User.user_count+=1
-        users.append(self)
+        User.users.append(self)
     def get_info(self):
         return f"General information about user {self.id}:\n" +\
         f"ID: {self.id}  |  Name: {self.name} | Email: {self.email} | Role: {self.role}"
@@ -31,11 +32,28 @@ class User:
     @staticmethod
     def validate_email(email):
         if not isinstance(email, str):
-            raise TypeError("Wrong type for email")
+            raise WrongEmailType("Wrong type for email")
         if not email.endswith('@kbtu.kz'):
-            raise ValueError("Not ended with @kbtu.kz")
+            raise WrongDomainEnd("Not ended with @kbtu.kz")
         else:
             return True
+    @staticmethod
+    def find_user_by_id(user_id):
+        for user in User.users:
+            if user.id == user_id:
+                return user
+        return None
+    
+class WrongDomainEnd(ValueError):
+    pass
+class WrongRoleValue(ValueError):
+    pass
+class WrongEmailType(TypeError):
+    pass
+class WrongNameType(TypeError):
+    pass
+class WrongRoleType(TypeError):
+    pass
         
     
 class Student(User):
@@ -52,7 +70,7 @@ class Student(User):
             self.grades_d[course.id]=None
                 
         else:
-            raise TypeError("Wrong type for course")
+            raise WrongCourseType("Wrong type for course")
         
     def drop_course(self, course):
         if isinstance(course, Course):
@@ -61,16 +79,16 @@ class Student(User):
             self.grades_d.pop(course.id)
                 
         else:
-            raise TypeError("Wrong type for course")
+            raise WrongCourseType("Wrong type for course")
     
     def set_grade(self, course, grade):
         if isinstance(course, Course):
             if course.id in self.courses_id_set and 0<grade<=5:
                 self.grades_d[course.id]=grade
             else:
-                raise ValueError("Wrong value for grade")
+                raise WrongGradeValue("Wrong value for grade")
         else:
-            raise TypeError("Wrong type for course")
+            raise WrongCourseType("Wrong type for course")
 
 
     def get_average_grade(self):
@@ -80,6 +98,11 @@ class Student(User):
         l=len(grades)
         avr=float(sum(grades)/l)
         return avr
+
+class WrongCourseType(TypeError):
+    pass
+class WrongGradeValue(ValueError):
+    pass
 
 class Teacher(User):
     def __init__(self, name, email):
@@ -91,19 +114,24 @@ class Teacher(User):
             course.assign_teacher(self.id)
             self.courses_id_teaching_set.add(course.id)
         else:
-            raise TypeError("Wrong type for course")
+            raise WrongCourseType("Wrong type for course")
 
     def grade_student(self, student, course, grade):
         if isinstance(student, Student) and isinstance(course, Course):
             if course.id in self.courses_id_teaching_set and course.id in student.courses_id_set:
                 student.set_grade(course, grade)
             else:
-                raise ValueError("There is either no student in this course, or no this course for teacher")
+                raise NotFoundCourseForTeacher("There is either no student in this course, or no this course for teacher")
         else:
-            raise TypeError("Wrong type for student or course or both")
+            raise WrongStudent_CourseType("Wrong type for student or course or both")
 
+class NotFoundCourseForTeacher(ValueError):
+    pass
+class WrongStudent_CourseType(TypeError):
+    pass
 
 class Course:
+    courses=[]
     course_count=1
 
     def __init__(self, title, max_students):
@@ -111,15 +139,15 @@ class Course:
         if isinstance(title, str):
             self.title=title  
         else:
-            raise TypeError("Wrong type for title")
+            raise WrongTitleType("Wrong type for title")
         if isinstance(max_students, int):
             self.max_students=max_students  
         else:
-            raise TypeError("Wrong type for max_students")
+            raise WrongMaxStudentsType("Wrong type for max_students")
         self.teacher_id=None  
         self.students_id_set=set()
         Course.course_count+=1
-        courses.append(self)
+        Course.Course.courses.append(self)
 
     
     def get_info(self):
@@ -136,15 +164,15 @@ class Course:
             if student.id not in self.students_id_set and not self.is_full():
                 self.students_id_set.add(student.id)
             elif self.is_full():
-                raise ValueError("Course is full")
+                raise CourseIsFull("Course is full")
         else:
-            raise TypeError("Wrong type of student")
+            raise WrongStudentType("Wrong type of student")
 
     def assign_teacher(self, teacher_id):
         if isinstance(teacher_id, int):
             self.teacher_id=teacher_id
         else:
-            raise TypeError("Wrong type for teacher_id")
+            raise WrongTeacherIDType("Wrong type for teacher_id")
             
         
     def remove_student(self, student):
@@ -152,44 +180,59 @@ class Course:
             if student.id in self.students_id_set:
                 self.students_id_set.remove(student.id)
             else:
-                raise ValueError("This student is not enrolled in this course")
+                raise StudentIsNotEnrolled("This student is not enrolled in this course")
         else:
-            raise TypeError("Wrong type of student")
+            raise WrongStudentType("Wrong type of student")
 
     def is_full(self):
         return len(self.students_id_set)>=self.max_students
+    @staticmethod
+    def find_course_by_id(course_id):
+        for course in Course.Course.courses:
+            if course.id == course_id:
+                return course
+        return None
 
-def find_user_by_id(user_id):
-    for user in users:
-        if user.id == user_id:
-            return user
-    return None
-def find_course_by_id(course_id):
-    for course in courses:
-        if course.id == course_id:
-            return course
-    return None
+class WrongTitleType(TypeError):
+    pass
+class WrongMaxStudentsType(TypeError):
+    pass
+class CourseIsFull(ValueError):
+    pass
+class WrongStudentType(TypeError):
+    pass
+class WrongTeacherIDType(TypeError):
+    pass
+class StudentIsNotEnrolled(ValueError):
+    pass
+
+
+
 def main():
     print("Welcome to my first local system!")
     while True:
         try:
             i=int(input("You can choose one of these options by entering its point number:\n" \
             + "0. Exit\n1. Add teacher\n2. Add course\n3. Add student\n4. Assign student to course\n5. Assign teacher to course\n"\
-            + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of courses\n"\
+            + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of Course.courses\n"\
             + "10. Look at the grades of student\n11. Look at course_list of teacher\n12. Look at course_list of student\n"))
         except (ValueError, TypeError):
             print("Wrong type. Only string words")
             continue
+        
         header="Id | Name | Email | Role"
         header2="Id | Title | Max_students | Teacher_id"
         if i==1:
-            name=input("Enter the name: ")
-            email=input("Enter the email: ")
+            name=input("Enter the name: ").strip()
+            email=input("Enter the email: ").strip()
+            if not (name and email):
+                print("Must not be empty")
+                continue
             try:
                 t=Teacher(name, email)
                 print("Teacher is added successfully!")
-            except (TypeError, ValueError):
-                print("Not valid data")
+            except WrongDomainEnd as wde:
+                print(wde)
                 continue
         elif i==2:
             title=input("Enter the title: ").strip()
@@ -197,30 +240,29 @@ def main():
                 print("Must not be empty")
                 continue
             try:
-                max_students=int(input("How much students are there who can enroll the course? "))
+                max_students=int(input("How much students are there who can enroll the course? ").strip())
             except (ValueError, TypeError):
-                print("Wrong type. Title is string, max_students is integer")
+                print("Wrong type. Max_students is integer")
                 continue
-            try:
-                c=Course(title, max_students)
-                print("Course is added successfully!")
-            except TypeError:
-                print("Not valid data")
-                continue
+            c=Course(title, max_students)
+            print("Course is added successfully!")
         elif i==3:
-            name=input("Enter the name: ")
-            email=input("Enter the email: ")
+            name=input("Enter the name: ").strip()
+            email=input("Enter the email: ").strip()
+            if not(name and email):
+                print("Must not be empty")
+                continue
             try:
                 s=Student(name, email)
                 print("Student is added successfully!")
-            except (TypeError, ValueError):
-                print("Not valid data")
+            except WrongEmailType as wet:
+                print(wet)
                 continue
         
         elif i==4:
             str1=""
             print(header)
-            for u in users:
+            for u in User.users:
                 if isinstance(u, Student):
                     str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
                     print(str1)
@@ -231,7 +273,7 @@ def main():
                 continue
             str2=""
             print(header2)
-            for c in courses:
+            for c in Course.courses:
                 if isinstance(c, Course):
                     str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
                     print(str2)
@@ -241,8 +283,8 @@ def main():
                 print("Wrong type. Only integer")
                 continue
             
-            student=find_user_by_id(student_id)
-            course=find_course_by_id(course_id)
+            student=User.find_user_by_id(student_id)
+            course=Course.find_course_by_id(course_id)
             if not isinstance(student, Student):
                 print("Student was not found")
                 continue
@@ -251,8 +293,8 @@ def main():
                 continue
             try:
                 student.enroll_course(course)
-            except (ValueError, TypeError):
-                print("Not enrolled, maybe student was already enrolled")
+            except CourseIsFull as cif:
+                print(cif)
                 continue
             
             
@@ -260,7 +302,7 @@ def main():
         elif i==5:
             str1=""
             print(header)
-            for u in users:
+            for u in User.users:
                 if isinstance(u, Teacher):
                     str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
                     print(str1)
@@ -271,7 +313,7 @@ def main():
                 continue
             str2=""
             print(header2)
-            for c in courses:
+            for c in Course.courses:
                 if isinstance(c, Course):
                     str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
                     print(str2)
@@ -280,8 +322,8 @@ def main():
             except (ValueError, TypeError):
                 print("Wrong type. Only integer")
                 continue  
-            teacher=find_user_by_id(teacher_id)
-            course=find_course_by_id(course_id)
+            teacher=User.find_user_by_id(teacher_id)
+            course=Course.find_course_by_id(course_id)
             if not isinstance(teacher, Teacher):
                 print("Teacher was not found")
                 continue
@@ -293,9 +335,9 @@ def main():
         elif i==6:
             str1=""
             print(header)
-            for u in users:
+            for u in User.users:
                 if isinstance(u, Student):
-                    str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
+                    str1=f"{u.id} | {u.name} | {u.email} | {u.role}"
                     print(str1)
             try:
                 student_id=int(input("Choose the student_id: "))
@@ -304,7 +346,7 @@ def main():
                 continue
             str2=""
             print(header2)
-            for c in courses:
+            for c in Course.courses:
                 if isinstance(c, Course):
                     str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
                     print(str2)
@@ -313,8 +355,8 @@ def main():
             except (ValueError, TypeError):
                 print("Wrong type. Only integer")
                 continue
-            student=find_user_by_id(student_id)
-            course=find_course_by_id(course_id)
+            student=User.find_user_by_id(student_id)
+            course=Course.find_course_by_id(course_id)
             if not isinstance(student, Student):
                 print("Student was not found")
                 continue
@@ -323,15 +365,15 @@ def main():
                 continue
             try:
                 student.drop_course(course)
-            except (ValueError, TypeError):
-                print("Not dropped, maybe student was already dropped")
+            except StudentIsNotEnrolled as sine:
+                print(sine)
                 continue
             
             print("Student was dropped from course successfully!")
         elif i==7:
             str2=""
             print(header2)
-            for c in courses:
+            for c in Course.courses:
                 if isinstance(c, Course):
                     str2=f"{c.id} | {c.title} | {c.max_students} | {c.teacher_id}"
                     print(str2)
@@ -344,7 +386,7 @@ def main():
 
             str1=""
             print(header)
-            for u in users:
+            for u in User.users:
                 if isinstance(u, Student):
                     str1=f"{str(u.id)} | {u.name} | {u.email} | {u.role}"
                     print(str1)
@@ -354,8 +396,8 @@ def main():
                 print("Wrong type. Only integer")
                 continue
             
-            course=find_course_by_id(course_id)
-            student=find_user_by_id(student_id)
+            course=Course.find_course_by_id(course_id)
+            student=User.find_user_by_id(student_id)
             if not isinstance(student, Student):
                 print("Student was not found")
                 continue
@@ -370,19 +412,22 @@ def main():
             except (ValueError, TypeError):
                 print("Wrong type. Only integer. Grade has to be between ")
                 continue
-            t=find_user_by_id(course.teacher_id)
+            t=User.find_user_by_id(course.teacher_id)
             if not isinstance(t, Teacher):
                 print("Teacher of this course is not teacher")
                 continue
-            t.grade_student(student, course, grade)
-            print("The student got the grade successfully!")
+            try:
+                t.grade_student(student, course, grade)
+            except WrongGradeValue as wgv:
+                print(wgv)
+                continue
             
         elif i==8:
-            for u in users:
+            for u in User.users:
                 print(u)
             print()
         elif i==9:
-            for c in courses:
+            for c in Course.courses:
                 print(c)
             print()
         elif i==10:
@@ -392,12 +437,12 @@ def main():
                 print("Wrong type. Only integer")
                 continue
             
-            s=find_user_by_id(s_id)
+            s=User.find_user_by_id(s_id)
             if not isinstance(s, Student):
                 print("ID doesn't belong to student")
                 continue
             for key, value in s.grades_d.items():
-                print(f"Subject's ID: {key}; Grade: {value}\n")
+                print(f"Subject's ID: {key}; Grade: {value}")
             print(f"Average grade: {s.get_average_grade()}")
         elif i==11:
             try:
@@ -405,14 +450,14 @@ def main():
             except (ValueError, TypeError):
                 print("Wrong type. Only integer")
                 continue
-            t=find_user_by_id(t_id)
+            t=User.find_user_by_id(t_id)
             if not isinstance(t, Teacher):
                 print("ID doesn't belong to teacher")
                 continue
             li=t.courses_id_teaching_set
             print("Course set which teacher teach:\n")
             for c_id in li:
-                c=find_course_by_id(c_id)
+                c=Course.find_course_by_id(c_id)
                 print(c)
 
         elif i==12: 
@@ -421,14 +466,14 @@ def main():
             except (ValueError, TypeError):
                 print("Wrong type. Only integer")
                 continue
-            s=find_user_by_id(s_id)
+            s=User.find_user_by_id(s_id)
             if not isinstance(s, Student):
                 print("ID doesn't belong to student")
                 continue
             li=s.courses_id_set
             print("Course set which student study in: \n")
             for c_id in li:
-                c=find_course_by_id(c_id)
+                c=Course.find_course_by_id(c_id)
                 print(c)
         elif i==0:
             print("Bye-Bye!")
