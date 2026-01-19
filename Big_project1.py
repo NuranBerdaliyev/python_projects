@@ -147,7 +147,7 @@ class Course:
         self.teacher_id=None  
         self.students_id_set=set()
         Course.course_count+=1
-        Course.Course.courses.append(self)
+        Course.courses.append(self)
 
     
     def get_info(self):
@@ -188,7 +188,7 @@ class Course:
         return len(self.students_id_set)>=self.max_students
     @staticmethod
     def find_course_by_id(course_id):
-        for course in Course.Course.courses:
+        for course in Course.courses:
             if course.id == course_id:
                 return course
         return None
@@ -214,7 +214,7 @@ def main():
         try:
             i=int(input("You can choose one of these options by entering its point number:\n" \
             + "0. Exit\n1. Add teacher\n2. Add course\n3. Add student\n4. Assign student to course\n5. Assign teacher to course\n"\
-            + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of Course.courses\n"\
+            + "6. Drop student from course\n7. Grade student\n8. Id list of users(teachers, students)\n9. Id list of courses\n"\
             + "10. Look at the grades of student\n11. Look at course_list of teacher\n12. Look at course_list of student\n"))
         except (ValueError, TypeError):
             print("Wrong type. Only string words")
@@ -420,6 +420,9 @@ def main():
                 t.grade_student(student, course, grade)
             except WrongGradeValue as wgv:
                 print(wgv)
+                continue
+            except NotFoundCourseForTeacher as nfcft:
+                print(nfcft)
                 continue
             
         elif i==8:
