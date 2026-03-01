@@ -1,4 +1,7 @@
 import re
+from utils import measure_time
+
+@measure_time
 def analyze(logs):
     users=dict()
     logged_in=0

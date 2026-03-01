@@ -16,9 +16,10 @@ class LogIterator:
 
 
 def measure_time(func):
+    t0=time.time()
     def wrapper(*args, **kwargs):
-        t0=time.time()
+        
         result=func(*args, **kwargs)
-        print(f"{func.__name__} took {time.time()-t0:.5f}s")
+        print(f"{func.__name__} took {time.time()-t0:.50f}s")
         return result
     return wrapper

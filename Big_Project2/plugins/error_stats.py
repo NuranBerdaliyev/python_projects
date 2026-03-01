@@ -1,3 +1,6 @@
+from utils import measure_time
+
+@measure_time
 def analyze(logs):
     messages_counts={}
     for log in logs:

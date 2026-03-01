@@ -1,8 +1,10 @@
 import re
 from models import LogEntry
+from utils import measure_time
 
 pattern = r"(.*?) (.*?) \| (.*?) \| (.*)"
 
+@measure_time
 def parse_line(line):
     matched = re.search(pattern, line)
     if not matched:
