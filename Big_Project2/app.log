@@ -1,0 +1,109 @@
+2026-02-25 09:58:12 | INFO | Server started
+2026-02-25 10:01:03 | INFO | User 42 logged in
+2026-02-25 10:02:45 | INFO | User 15 logged in
+2026-02-25 10:05:17 | WARNING | Disk usage at 85%
+2026-02-25 10:06:33 | ERROR | Database connection failed
+2026-02-25 10:08:21 | INFO | User 42 requested resource /api/data
+2026-02-25 10:09:54 | ERROR | Timeout while contacting external service
+2026-02-25 10:12:11 | INFO | User 15 logged out
+2026-02-25 10:14:29 | WARNING | Memory usage high
+2026-02-25 10:16:42 | INFO | User 73 logged in
+2026-02-25 10:18:03 | INFO | User 73 uploaded file report.pdf
+2026-02-25 10:20:37 | ERROR | Failed to write file to disk
+2026-02-25 10:22:58 | INFO | User 42 logged out
+2026-02-25 10:25:10 | INFO | Server heartbeat check
+2026-02-25 10:27:44 | WARNING | CPU temperature elevated
+2026-02-25 10:30:00 | INFO | User 99 logged in
+2026-02-25 10:31:22 | ERROR | Unauthorized access attempt detected
+2026-02-25 10:33:47 | INFO | User 99 changed password
+2026-02-25 10:35:59 | INFO | User 99 logged out
+2026-02-25 10:40:15 | INFO | Server shutting down
+
+2026-03-01 08:00:00 | INFO | User 100 logged in
+2026-03-01 08:02:15 | INFO | User 100 viewed dashboard
+2026-03-01 08:05:42 | INFO | User 101 logged in
+2026-03-01 08:06:10 | WARNING | User 101 attempted invalid password
+2026-03-01 08:07:33 | INFO | User 102 logged in
+2026-03-01 08:09:01 | ERROR | Database connection failed
+2026-03-01 08:09:05 | ERROR | Database connection failed
+2026-03-01 08:09:10 | ERROR | Database connection failed
+2026-03-01 08:10:22 | INFO | User 100 updated profile
+2026-03-01 08:12:44 | INFO | User 100 logged out
+2026-03-01 08:13:55 | INFO | User 103 logged in
+
+2026-03-01 08:15:11 | WARNING | User 103 attempted restricted access
+2026-03-01 08:17:20 | INFO | User 104 logged in
+2026-03-01 08:18:33 | ERROR | Payment transaction failed
+2026-03-01 08:18:40 | ERROR | Payment transaction failed
+2026-03-01 08:19:12 | INFO | User 105 logged in
+2026-03-01 08:21:09 | INFO | User 105 uploaded file report.csv
+
+
+2026-03-01 08:22:48 | INFO | User 105 logged out
+2026-03-01 08:23:57 | WARNING | Disk usage above 85%
+
+
+2026-03-01 08:25:16 | INFO | User 106 logged in
+2026-03-01 08:26:30 | ERROR | API request returned status 500
+2026-03-01 08:26:35 | ERROR | API request returned status 500
+2026-03-01 08:27:14 | INFO | User 107 logged in
+2026-03-01 08:29:02 | INFO | User 107 changed password
+2026-03-01 08:30:45 | INFO | User 107 logged out
+2026-03-01 08:32:11 | INFO | User 108 logged in
+2026-03-01 08:34:27 | WARNING | User 108 multiple failed login attempts
+2026-03-01 08:36:55 | INFO | User 109 logged in
+2026-03-01 08:38:13 | ERROR | File upload failed: size limit exceeded
+2026-03-01 08:38:20 | ERROR | File upload failed: size limit exceeded
+2026-03-01 08:40:01 | INFO | User 109 logged out
+2026-03-01 08:42:18 | INFO | User 110 logged in
+2026-03-01 08:43:25 | INFO | User 110 added item to cart
+2026-03-01 08:45:37 | INFO | User 111 logged in
+2026-03-01 08:46:50 | WARNING | High memory usage detected
+2026-03-01 08:48:09 | INFO | User 112 logged in
+2026-03-01 08:49:33 | ERROR | Cache server not reachable
+2026-03-01 08:49:40 | ERROR | Cache server not reachable
+2026-03-01 08:50:12 | INFO | User 113 logged in
+2026-03-01 08:52:26 | INFO | User 113 updated settings
+2026-03-01 08:53:41 | INFO | User 113 logged out
+2026-03-01 08:55:05 | WARNING | Slow database query detected
+2026-03-01 08:56:19 | INFO | User 114 logged in
+2026-03-01 08:57:44 | INFO | User 114 downloaded invoice.pdf
+2026-03-01 08:59:00 | ERROR | Email service unavailable
+2026-03-01 08:59:05 | ERROR | Email service unavailable
+2026-03-01 09:00:12 | INFO | User 115 logged in
+2026-03-01 09:02:33 | INFO | User 115 logged out
+2026-03-01 09:04:47 | INFO | User 116 logged in
+2026-03-01 09:06:58 | WARNING | User 116 attempted restricted access
+2026-03-01 09:08:10 | INFO | User 117 logged in
+2026-03-01 09:10:21 | ERROR | Payment gateway timeout
+
+2026-03-01 09:10:27 | ERROR | Payment gateway timeout
+2026-03-01 09:12:34 | INFO | User 118 logged in
+2026-03-01 09:14:46 | INFO | User 118 updated email address
+2026-03-01 09:16:59 | INFO | User 118 logged out
+2026-03-01 09:18:03 | WARNING | CPU usage above 90%
+2026-03-01 09:20:14 | INFO | User 119 logged in
+2026-03-01 09:22:25 | INFO | User 119 added payment method
+2026-03-01 09:24:36 | ERROR | Database connection failed
+2026-03-01 09:24:42 | ERROR | Database connection failed
+2026-03-01 09:26:53 | INFO | User 120 logged in
+2026-03-01 09:28:07 | INFO | User 120 viewed analytics page
+2026-03-01 09:30:18 | WARNING | Low disk space
+2026-03-01 09:32:29 | INFO | User 121 logged in
+2026-03-01 09:34:40 | ERROR | API request returned status 500
+2026-03-01 09:34:45 | ERROR | API request returned status 500
+2026-03-01 09:36:56 | INFO | User 122 logged in
+2026-03-01 09:38:12 | INFO | User 122 logged out
+2026-03-01 09:40:23 | INFO | User 123 logged in
+2026-03-01 09:42:34 | WARNING | User 123 multiple failed login attempts
+2026-03-01 09:44:45 | ERROR | File upload failed: size limit exceeded
+2026-03-01 09:44:50 | ERROR | File upload failed: size limit exceeded
+2026-03-01 09:46:01 | INFO | User 124 logged in
+2026-03-01 09:48:12 | INFO | User 124 changed password
+2026-03-01 09:50:23 | INFO | User 124 logged out
+2026-03-01 09:52:34 | INFO | User 125 logged in
+2026-03-01 09:54:45 | WARNING | Network latency high
+2026-03-01 09:56:56 | ERROR | Cache server not reachable
+2026-03-01 09:57:02 | ERROR | Cache server not reachable
+
+2026-03-01 09:59:13 | INFO | User 126 logged in
