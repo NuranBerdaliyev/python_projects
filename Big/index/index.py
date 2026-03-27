@@ -10,3 +10,6 @@ class Indexer:
     
     def get_count(self, word):
         return self.index_dict.get(word, 0)
+    
+    def __repr__(self):
+        return str(self.index_dict)

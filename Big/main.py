@@ -10,8 +10,9 @@ urls = [
     "https://jamesclear.com/one-sentence-habits"
 ]
 class Main:
-    i=Indexer()
-    p=Parser()
+    def __init__(self):
+        self.i=Indexer()
+        self.p=Parser()
 
     async def __fetching(self, urls):
         async with aiohttp.ClientSession() as session:
@@ -26,6 +27,10 @@ class Main:
             self.i.add_words(list_f)
         
         return self.i
+
+m=Main()
+i=asyncio.run(m.add_words(urls))
+print(i)
         
 
 
