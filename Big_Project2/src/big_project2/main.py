@@ -1,11 +1,11 @@
 import sys
 import importlib
-from parser import parse_line
-from models import LogEntry
-from utils import measure_time, LogIterator
+from src.big_project2.parser import parse_line
+from src.big_project2.models import LogEntry
+from src.big_project2.utils import LogIterator
 
 def load_plugins():
-    plugin_names=['plugins.error_stats', 'plugins.user_activity']
+    plugin_names=['src.big_project2.plugins.error_stats', 'src.big_project2.plugins.user_activity']
     plugins=[]
     for name in plugin_names:
         imported=importlib.import_module(name)
@@ -25,7 +25,7 @@ def main():
     if len(sys.argv)>1:
         level_filter=sys.argv[1]
         if level_filter in ["INFO", "WARNING", "ERROR"]:
-            logs=list(filter(lambda x: x==level_filter, logs))
+            logs=list(filter(lambda x: isinstance(x, LogEntry) and x.get_level()==level_filter, logs))
         else:
             print("Wrong argument")
             return

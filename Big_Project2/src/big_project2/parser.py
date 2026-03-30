@@ -1,6 +1,6 @@
 import re
-from models import LogEntry
-from utils import measure_time
+from src.big_project2.models import LogEntry
+from src.big_project2.utils import measure_time
 
 pattern = r"(.*?) (.*?) \| (.*?) \| (.*)"
 

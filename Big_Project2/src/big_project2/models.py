@@ -7,3 +7,6 @@ class LogEntry:
     
     def __repr__(self):
         return f'{self._date} {self._time} | {self._level} | {self._message}'
+    
+    def get_level(self):
+        return self._level
