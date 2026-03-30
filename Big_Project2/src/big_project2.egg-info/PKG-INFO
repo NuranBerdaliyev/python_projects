@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: big_project2
+Version: 0.1.0
+Summary: Log analyzer with plugin system
+Author-email: Nuran <nberdaliev2005@gmail.com>
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown

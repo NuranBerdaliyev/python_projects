@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+src/big_project2/__init__.py
+src/big_project2/main.py
+src/big_project2/models.py
+src/big_project2/parser.py
+src/big_project2/utils.py
+src/big_project2.egg-info/PKG-INFO
+src/big_project2.egg-info/SOURCES.txt
+src/big_project2.egg-info/dependency_links.txt
+src/big_project2.egg-info/entry_points.txt
+src/big_project2.egg-info/top_level.txt
+src/big_project2/plugins/__init__.py
+src/big_project2/plugins/error_stats.py
+src/big_project2/plugins/user_activity.py

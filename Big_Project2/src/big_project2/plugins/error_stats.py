@@ -1,4 +1,4 @@
-from src.big_project2.utils import measure_time
+from big_project2.utils import measure_time
 
 @measure_time
 def analyze(logs):

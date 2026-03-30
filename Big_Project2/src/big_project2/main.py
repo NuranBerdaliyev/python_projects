@@ -1,11 +1,11 @@
 import sys
 import importlib
-from src.big_project2.parser import parse_line
-from src.big_project2.models import LogEntry
-from src.big_project2.utils import LogIterator
+from big_project2.parser import parse_line
+from big_project2.models import LogEntry
+from big_project2.utils import LogIterator
 
 def load_plugins():
-    plugin_names=['src.big_project2.plugins.error_stats', 'src.big_project2.plugins.user_activity']
+    plugin_names=['big_project2.plugins.error_stats', 'big_project2.plugins.user_activity']
     plugins=[]
     for name in plugin_names:
         imported=importlib.import_module(name)
