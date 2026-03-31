@@ -1,0 +1,2 @@
+[console_scripts]
+big_project3 = big_project3.main:main

@@ -1,0 +1,46 @@
+from big_project3.parser.parser import Parser
+from big_project3.index.index import Indexer
+
+import asyncio, aiohttp
+
+
+urls = [
+    "https://jamesclear.com/creative-thinking",
+    "https://jamesclear.com/stay-on-the-bus",
+    "https://jamesclear.com/one-sentence-habits"
+]
+class Main:
+    def __init__(self):
+        self.i=Indexer()
+        self.p=Parser()
+
+    async def __fetching(self, urls):
+        async with aiohttp.ClientSession() as session:
+            fetch_list=[self.p.fetch(session, url) for url in urls]
+            coroutines_result=await asyncio.gather(*fetch_list)
+            return [self.p.extract_words(html) for html in coroutines_result]
+        
+    async def add_words(self, urls):
+        fetched_words=await self.__fetching(urls)
+        
+        for list_f in fetched_words:
+            self.i.add_words(list_f)
+        
+        return self.i
+    
+def main():
+    m=Main()
+    i=asyncio.run(m.add_words(urls))
+    print(i)
+if __name__=='__main__':
+    main()
+        
+
+
+
+
+
+
+        
+        
+

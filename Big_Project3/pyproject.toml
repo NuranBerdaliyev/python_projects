@@ -1,0 +1,33 @@
+[build-system]
+requires=["setuptools>=61.0"]
+build-backend="setuptools.build_meta"
+
+[project]
+name="big_project3"
+description="async parser of json-answers from urls"
+version="0.1.0"
+authors=[
+    {name="Nuran", email="nberdaliev2005@gmail.com"}
+]
+requires-python=">=3.10"
+
+dependencies=[
+    "aiohttp"
+]
+
+readme="README.md"
+license = {file="LICENSE"}
+
+classifiers =[
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License"
+]
+
+[tool.setuptools.packages.find]
+where=["src"]
+
+[project.scripts]
+big_project3="big_project3.main:main"
+
+
