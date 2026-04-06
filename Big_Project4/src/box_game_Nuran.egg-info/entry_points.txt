@@ -1,0 +1,2 @@
+[console_scripts]
+box_game = boxer_mini_console_game.main:main

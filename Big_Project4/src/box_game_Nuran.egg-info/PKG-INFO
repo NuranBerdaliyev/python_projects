@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: box-game-Nuran
+Version: 0.1.0
+Summary: CLI boxing game with MVC architecture
+Author: Nuran
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# Box game
+CLI-game about two boxers.
+
+## Launch
+```bash
+box-game
+```
