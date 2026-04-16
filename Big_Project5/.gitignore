@@ -1,0 +1,4 @@
+myworld/
+first/db.sqlite3
+first/firstapp/migrations/
+first/firstapp/__pycache__/

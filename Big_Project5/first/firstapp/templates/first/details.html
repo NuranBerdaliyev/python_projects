@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{% extends 'first/base.html' %}
+{% block title %}
+Detail information about {{thisboxer.fullname}}
+{% endblock %}
+{%block content%}
+<h1>Details of {{thisboxer.fullname}}</h1>
+<p>HP: {{thisboxer.hp}}</p>
+<p>Strongest attack: {{thisboxer.strongest_attack}}</p>
+<footer><a href="{% url 'boxerlist' %}">Back to Boxer List</a></footer>
+{%endblock%}

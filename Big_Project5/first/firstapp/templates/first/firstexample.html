@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{%extends 'first/base.html' %}
+{% block title %}
+All My Boxers
+{% endblock %}
+{%block content%}
+<h1>Ladies and gentlemen! See all my boxers!</h1>
+    <ul>
+        {%for boxer in boxers%}
+        <li><a href="{% url 'details' boxer.id %}">{{boxer.fullname}}</a></li>
+        {%endfor%}
+    </ul>
+{%endblock%}
