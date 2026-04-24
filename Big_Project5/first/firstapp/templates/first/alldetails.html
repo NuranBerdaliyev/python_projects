@@ -1,0 +1,14 @@
+
+{% extends 'first/base.html' %}
+{%block title%}
+All details of all boxers
+{%endblock%}
+{%block content%}
+{%for boxer in boxers%}
+<br>
+<ul>
+    <li><a href="{% url 'details' id_thisboxer=boxer.id %}">Details of {{boxer.fullname}}</a></li>
+</ul>
+{%endfor%}
+<h3><a href="{% url 'main' %}">Back to Main Page</a></h3>
+{%endblock%}

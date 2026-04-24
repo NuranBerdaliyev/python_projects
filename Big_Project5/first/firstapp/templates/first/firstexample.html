@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-{%extends 'first/base.html' %}
+{% extends 'first/base.html' %}
 {% block title %}
 All My Boxers
 {% endblock %}
 {%block content%}
 <h1>Ladies and gentlemen! See all my boxers!</h1>
-    <ul>
-        {%for boxer in boxers%}
-        <li><a href="{% url 'details' boxer.id %}">{{boxer.fullname}}</a></li>
-        {%endfor%}
-    </ul>
+<ul>
+   {%for boxer in boxers%}
+    <li>{{boxer.fullname}}</li>
+   {%endfor%}
+</ul>
+<p>Average HP: {{average_hp}}</p>
+<h3><a href="{% url 'main' %}">Back to Main Page</a></h3>
+
 {%endblock%}

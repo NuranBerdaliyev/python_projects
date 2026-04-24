@@ -1,11 +1,14 @@
-<!DOCTYPE html>
+
 {% extends 'first/base.html' %}
 {% block title %}
-Detail information about {{thisboxer.fullname}}
+Detail information about {{boxer.fullname}}
 {% endblock %}
+
 {%block content%}
-<h1>Details of {{thisboxer.fullname}}</h1>
-<p>HP: {{thisboxer.hp}}</p>
-<p>Strongest attack: {{thisboxer.strongest_attack}}</p>
-<footer><a href="{% url 'boxerlist' %}">Back to Boxer List</a></footer>
+<h1>Details of {{boxer.fullname}}</h1>
+<p>HP: {{boxer.hp}}</p>
+<p>Strongest attack: {{boxer.strongest_attack}}</p>
+
+<p><a href="{% url 'ifelse' id_thisboxer=boxer.id %}">Is this boxer cool?</a></p>
+<footer><a href="{% url 'all_details' %}">Back to Boxer Detail List</a></footer>
 {%endblock%}

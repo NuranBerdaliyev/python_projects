@@ -1,0 +1,13 @@
+{% extends 'first/base.html' %}
+{% block title %}
+Is this boxer strong?
+{% endblock %}
+{% block content %}
+{% if boxer.hp > 100 %}
+    <p>This boxer is cool</p>
+{% elif boxer.hp < 100%}
+    <p>This boxer is weak</p>
+{% else %}
+    <p>This boxer is normal</p>
+{%endif%}
+{% endblock %}
