@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<p>QuerySet of boxers: {{all_boxers_filter}}</p>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Fullname</th>
+        <th>HP</th>
+        <th>strongest_attack</th>
+    </tr>
+    
+    {% for boxer in all_boxers %}
+        <tr>
+            <td>{{boxer.id}}</td>
+            <td>{{boxer.fullname}}</td>
+            <td>{{boxer.hp}}</td>
+            <td>{{boxer.strongest_attack}}</td>
+        </tr>
+    {% endfor %}
+    
+</table>

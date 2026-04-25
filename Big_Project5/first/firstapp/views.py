@@ -27,3 +27,11 @@ def home(request):
 def ifelse(request, id_thisboxer):
     boxer=Boxer.objects.get(id=id_thisboxer)
     return render(request, 'first/ifelseincluding.html', {'bx': boxer})
+
+def query_set(request):
+    all_boxers=Boxer.objects.all()
+    all_boxers_values=Boxer.objects.all().values('hp', 'fullname')
+    all_boxers_values_list=Boxer.objects.all().values_list('hp', 'fullname')
+    all_boxers_filter=Boxer.objects.filter(fullname='Berdaliyev Nuran')
+    return render(request, 'first/queryset.html', {'all_boxers': all_boxers, 'all_boxers_values': all_boxers_values,
+                                                   'all_boxers_values_list': all_boxers_values_list, 'all_boxers_filter': all_boxers_filter})

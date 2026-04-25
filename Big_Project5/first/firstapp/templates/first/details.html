@@ -5,10 +5,13 @@ Detail information about {{boxer.fullname}}
 {% endblock %}
 
 {%block content%}
-<h1>Details of {{boxer.fullname}}</h1>
-<p>HP: {{boxer.hp}}</p>
-<p>Strongest attack: {{boxer.strongest_attack}}</p>
-
-<p><a href="{% url 'ifelse' id_thisboxer=boxer.id %}">Is this boxer cool?</a></p>
-<footer><a href="{% url 'all_details' %}">Back to Boxer Detail List</a></footer>
+<div class="mycard">
+    <h1>Details of {{boxer.fullname}}</h1>
+    <p>HP: {{boxer.hp}}</p>
+    <p>Strongest attack: {{boxer.strongest_attack}}</p>
+</div>
+<div class="topnav">
+    <p><a href="{% url 'ifelse' id_thisboxer=boxer.id %}">Is this boxer cool?</a></p>
+    <footer><a href="{% url 'all_details' %}">Back to Boxer Detail List</a></footer>
+</div>
 {%endblock%}

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,7 +6,7 @@
             {%block title%}
             {%endblock%}
         </title>
-        
+        <link rel="stylesheet" href="{% static 'firstexample.css' %}">
     </head>
     <body>
         {%block content%}

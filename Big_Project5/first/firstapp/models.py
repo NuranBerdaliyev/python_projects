@@ -6,4 +6,4 @@ class Boxer(models.Model):
     strongest_attack=models.CharField(max_length=255, default='cross')
 
     def __str__(self):
-        return f"This is the representation, and boxer's name is {self.fullname}"
+        return f"Boxer {self.id}"

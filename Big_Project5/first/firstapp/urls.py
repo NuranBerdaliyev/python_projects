@@ -9,4 +9,5 @@ urlpatterns=[
     path('boxerlist/details/<int:id_thisboxer>/', views.details, name='details'),
     path('boxer_test/', views.boxer, name='boxer'),
     path('boxerlist/ifelse/<int:id_thisboxer>/', views.ifelse, name='ifelse'),
+    path('queryset/', views.query_set, name='queryset'),
 ]

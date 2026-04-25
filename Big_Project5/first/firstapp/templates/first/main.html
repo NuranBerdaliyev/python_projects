@@ -4,9 +4,12 @@
 Main Page
 {%endblock%}
 {%block content%}
-<h1>Main Page about boxers</h1>
-<ul>
-    <li><a href="{% url 'boxerlist' %}">Check all boxers</a></li>
-    <li><a href="{% url 'all_details' %}">List of details</a></li>
-</ul>
+<div class="main">
+    <h1>Main Page about boxers</h1>
+    <ul>
+        <li><a href="{% url 'boxerlist' %}">Check all boxers</a></li>
+        <li><a href="{% url 'all_details' %}">List of details</a></li>
+        <li><a href="{% url 'queryset' %}">Table</a></li>
+    </ul>
+</div>
 {%endblock%}
