@@ -1,0 +1,11 @@
+<h1>Project: {{project.name}}</h1>
+<div>
+    <p>Tasks for this project:</p>
+    <ul>
+        {% for task in tasks %}
+            <li><a href="{% url 'tasks_detail' task.id %}">{{task.title}}</a></li>
+        {% empty %}
+            <li>No tasks for this project yet</li>
+        {% endfor %}
+    </ul>
+</div>

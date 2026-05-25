@@ -1,0 +1,10 @@
+<h1>Tasks</h1>
+<ul>
+    {%for task in tasks%}
+        <li>
+            <a href="{% url 'tasks_detail' task.id %}">{{ task.title }} - {{ task.status }} - {{ task.priority }}</a>
+        </li>
+    {%empty%}
+        <li>No tasks yet</li>
+    {% endfor %}
+</ul>
