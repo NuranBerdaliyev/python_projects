@@ -1,0 +1,13 @@
+{% if project %}
+    <h1>Updating project: {{project.name}}</h1>
+{% else %}
+    <h1>Creating project</h1>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'projects_list' %}">Projects</a>

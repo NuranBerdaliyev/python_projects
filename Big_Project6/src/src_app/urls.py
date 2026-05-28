@@ -1,17 +1,35 @@
 from django.urls import path
 from .views import (TaskListView, 
                     TaskDetailView, 
+                    TaskCreateView,
+                    TaskUpdateView,
+                    TaskDeleteView,
                     ProjectListView, 
                     ProjectDetailView,
+                    ProjectCreateView,
+                    ProjectDeleteView,
+                    ProjectUpdateView,
                     CategoryListView,
-                    CategoryDetailView)
+                    CategoryDetailView,
+                    CategoryCreateView,
+                    CategoryDeleteView,
+                    CategoryUpdateView)
 
 
 urlpatterns = [
     path('tasks/', TaskListView.as_view(), name='tasks_list'),
     path('tasks/<int:pk>/', TaskDetailView.as_view(), name='tasks_detail'),
+    path('tasks/create/', TaskCreateView.as_view(), name='tasks_create'),
+    path('tasks/<int:pk>/update/', TaskUpdateView.as_view(), name='tasks_update'),
+    path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='tasks_delete'),
     path('projects/', ProjectListView.as_view(), name='projects_list'),
     path('projects/<int:pk>/', ProjectDetailView.as_view(), name='projects_detail'),
+    path('projects/create/', ProjectCreateView.as_view(), name='projects_create'),
+    path('projects/<int:pk>/update/', ProjectUpdateView.as_view(), name='projects_update'),
+    path('projects/<int:pk>/delete/', ProjectDeleteView.as_view(), name='projects_delete'),
     path('categories/', CategoryListView.as_view(), name='categories_list'),
     path('categories/<int:pk>/', CategoryDetailView.as_view(), name='categories_detail'),
+    path('categories/create/', CategoryCreateView.as_view(), name='categories_create'),
+    path('categories/<int:pk>/update/', CategoryUpdateView.as_view(), name='categories_update'),
+    path('categories/<int:pk>/delete/', CategoryDeleteView.as_view(), name='categories_delete'),
 ]

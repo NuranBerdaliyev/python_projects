@@ -1,0 +1,13 @@
+{% if task %}
+    <h1>Updating task: {{task.title}}</h1>
+{% else %}
+    <h1>Creating task</h1>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'tasks_list' %}">Tasks</a>

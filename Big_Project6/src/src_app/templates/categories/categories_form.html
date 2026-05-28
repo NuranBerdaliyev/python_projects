@@ -1,0 +1,13 @@
+{% if category %}
+    <h1>Updating category: {{category.name}}</h1>
+{% else %}
+    <h1>Creating category</h1>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'categories_list' %}">Categories</a>
