@@ -1,13 +1,21 @@
-{% if project %}
-    <h1>Updating project: {{project.name}}</h1>
-{% else %}
-    <h1>Creating project</h1>
-{% endif %}
+{% extends "base.html" %}
 
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Save</button>
-</form>
+{% block title %}{% if project %}Update project{% else %}Create project{% endif %}{% endblock %}
 
-<a href="{% url 'projects_list' %}">Projects</a>
+{% block content %}
+    <div class="card">
+        {% if project %}
+            <h1>Updating project: {{project.name}}</h1>
+        {% else %}
+            <h1>Creating project</h1>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button class="btn-primary" type="submit">Save</button>
+        </form>
+        <div class="actions">
+            <a class="btn-secondary" href="{% url 'projects_list' %}">Back to projects</a>
+        </div>   
+    </div>
+{% endblock %}

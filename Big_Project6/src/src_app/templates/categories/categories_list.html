@@ -1,10 +1,25 @@
-<h1>Categories</h1>
-<ul>
-    {%for category in categories%}
-        <li>
-            <a href="{% url 'categories_detail' category.id %}">{{category.name}}</a>
-        </li>
-    {%empty%}
-        <li>No categories yet</li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>Categories</h1>
+        <div class="actions">
+            <a class="btn-primary" href="{% url 'categories_create' %}">Create category</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <ul class="clean">
+            {%for category in categories%}
+                <li>
+                    <a href="{% url 'categories_detail' category.id %}">{{category.name}}</a>
+                </li>
+            {%empty%}
+                <p class="muted">No categories yet</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+

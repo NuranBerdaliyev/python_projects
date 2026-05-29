@@ -1,8 +1,16 @@
-<h1>Delete Task</h1>
-<p>Are you sure you want to delete {{ task.title }}?</p>
+{% extends "base.html" %}
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Delete</button>
-</form>
-<a href="{% url 'tasks_detail' task.id %}">Cancel</a>
+{% block title %}Delete task{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>Delete Task</h1>
+        <p>Are you sure you want to delete {{ task.title }}?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn-danger" type="submit">Delete</button>
+        </form>
+        <a class="btn-secondary" href="{% url 'tasks_detail' task.id %}">Cancel</a>
+    </div>
+{% endblock %}

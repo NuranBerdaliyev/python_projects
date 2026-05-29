@@ -1,11 +1,25 @@
-<h1>Category: {{category.name}}</h1>
-<div>
-    <p>Tasks for this category:</p>
-    <ul>
-        {% for task in tasks %}
-            <li><a href="{% url 'tasks_detail' task.id %}">{{task.title}}</a></li>
-        {% empty %}
-            <li>No tasks for this category yet</li>
-        {% endfor %}
-    </ul>
-</div>
+{% extends "base.html" %}
+
+{% block title %}Category detail{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>Category: {{category.name}}</h1>
+        
+        <p><strong>Tasks for this category:</strong></p>
+        <ul class="clean">
+            {% for task in tasks %}
+                <li><a href="{% url 'tasks_detail' task.id %}">{{task.title}}</a></li>
+            {% empty %}
+                <p class="muted">No tasks for this category yet</p>
+            {% endfor %}
+        </ul>
+        <div class="actions">
+            <a class="btn-secondary" href="{% url 'categories_update' category.id %}">Edit</a>
+            <a class="btn-danger" href="{% url 'categories_delete' category.id %}">Delete</a>
+            <a class="btn-secondary" href="{% url 'categories_list' %}">Back to categories</a>
+        </div>
+        
+    </div>
+{% endblock %}
+

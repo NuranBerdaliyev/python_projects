@@ -1,10 +1,23 @@
-<h1>Projects</h1>
-<ul>
-    {%for project in projects%}
-        <li>
-            <a href="{% url 'projects_detail' project.id %}">{{project.name}}</a>
-        </li>
-    {%empty%}
-        <li>No projects yet</li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>Projects</h1>
+        <div class="actions">
+            <a class="btn-primary" href="{% url 'projects_create' %}">Create Project</a>
+        </div>
+    </div>
+    <div class="card">
+        <ul class="clean">
+            {%for project in projects%}
+                <li>
+                    <a href="{% url 'projects_detail' project.id %}">{{project.name}}</a>
+                </li>
+            {%empty%}
+                <p class="muted">No projects yet</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

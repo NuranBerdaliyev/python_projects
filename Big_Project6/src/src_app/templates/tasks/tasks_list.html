@@ -1,10 +1,25 @@
-<h1>Tasks</h1>
-<ul>
-    {%for task in tasks%}
-        <li>
-            <a href="{% url 'tasks_detail' task.id %}">{{ task.title }} - {{ task.status }} - {{ task.priority }}</a>
-        </li>
-    {%empty%}
-        <li>No tasks yet</li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block title %}Tasks List{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>Tasks</h1>
+        <div class="actions">
+            <a class="btn-primary" href="{% url 'tasks_create' %}">Create Task</a>
+        </div>
+    </div>
+    <div class="card">
+        <ul class="clean">
+            {%for task in tasks%}
+                <li>
+                    <a href="{% url 'tasks_detail' task.id %}">{{ task.title }} - {{ task.status }} - {{ task.priority }}</a>
+                </li>
+            {%empty%}
+                <p class="muted">No tasks yet</p>
+            {% endfor %}
+        </ul>
+    </div>
+    
+{% endblock %}
+

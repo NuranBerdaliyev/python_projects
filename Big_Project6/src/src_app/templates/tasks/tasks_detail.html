@@ -1,18 +1,34 @@
-<h1>Task: {{task.title}}</h1>
-<div>
-    {% if task.project %}
-        <p><a href="{% url 'projects_detail' task.project.id %}">Project: {{task.project}}</a></p>
-    {% else %}
-        <p>Project: No Project</p>
-    {% endif %}
-    {% if task.category %}
-        <p><a href="{% url 'categories_detail' task.category.id %}">Category: {{task.category}}</a></p>
-    {% else %}
-        <p>Category: No Category</p>
-    {% endif %}
-    <p>Description: {{task.description}}</p>
-    <p>Status: {{task.status}}</p>
-    <p>Priority: {{task.priority}}</p>
-    <p>Created at: {{task.created_at}}</p>
-    <p>Deadline: {{task.deadline}}</p>
-</div>
+{% extends "base.html" %}
+{% block title %}Task detail{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>Task: {{task.title}}</h1>
+        <p><strong>Description:</strong> {{task.description}}</p>
+        <p><strong>Status:</strong> {{task.status}}</p>
+        <p><strong>Priority</strong> {{task.priority}}</p>
+        <p><strong>Created at:</strong> {{task.created_at}}</p>
+        <p><strong>Deadline</strong> {{task.deadline}}</p>
+        <div>
+            <strong>Project:</strong>
+            {% if task.project %}
+                <p><a href="{% url 'projects_detail' task.project.id %}">Project: {{task.project}}</a></p>
+            {% else %}
+                <p>Project: No Project</p>
+            {% endif %}
+        </div>
+        <div>
+            <strong>Category:</strong>
+            {% if task.category %}
+                <a href="{% url 'categories_detail' task.category.id %}">{{ task.category }}</a>
+            {% else %}
+                No category
+            {% endif %}
+        </div>
+        <div class="actions">
+            <a class="btn-secondary" href="{% url 'tasks_update' task.id %}">Edit</a>
+            <a class="btn-danger" href="{% url 'tasks_delete' task.id %}">Delete</a>
+            <a class="btn-secondary" href="{% url 'tasks_list' %}">Back to tasks</a>
+        </div>
+    </div>
+{% endblock %}
