@@ -8,7 +8,7 @@
     {% if task.category %}
         <p><a href="{% url 'categories_detail' task.category.id %}">Category: {{task.category}}</a></p>
     {% else %}
-        <p>Project: No Project</p>
+        <p>Category: No Category</p>
     {% endif %}
     <p>Description: {{task.description}}</p>
     <p>Status: {{task.status}}</p>

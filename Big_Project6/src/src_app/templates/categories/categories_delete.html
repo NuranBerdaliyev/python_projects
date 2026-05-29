@@ -1,8 +1,8 @@
 <h1>Delete Category</h1>
-<p>Are you sure you want to delete {{ object }}?</p>
+<p>Are you sure you want to delete {{ category }}?</p>
 
 <form method="post">
     {% csrf_token %}
     <button type="submit">Delete</button>
 </form>
-<a href="{% url 'categories_detail' object.pk %}">Cancel</a>
+<a href="{% url 'categories_detail' category.id %}">Cancel</a>

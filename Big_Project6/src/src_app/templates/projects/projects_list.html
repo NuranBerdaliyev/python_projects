@@ -2,7 +2,7 @@
 <ul>
     {%for project in projects%}
         <li>
-            {{project.name}}
+            <a href="{% url 'projects_detail' project.id %}">{{project.name}}</a>
         </li>
     {%empty%}
         <li>No projects yet</li>

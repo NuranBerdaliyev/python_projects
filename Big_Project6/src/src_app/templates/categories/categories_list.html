@@ -2,7 +2,7 @@
 <ul>
     {%for category in categories%}
         <li>
-            {{category.name}}
+            <a href="{% url 'categories_detail' category.id %}">{{category.name}}</a>
         </li>
     {%empty%}
         <li>No categories yet</li>
