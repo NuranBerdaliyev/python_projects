@@ -18,10 +18,13 @@
 
                 <div class="auth-links">
                     {% if user.is_authenticated %}
-                        <span class="muted">Hello, {{ user.username }}</span>
-                        <a href="/auth/logout/">Logout</a>
+                        <p><span class="muted">Hello, {{ user.username }}</span></p>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button class="btn-primary" type="submit">Logout</button>
+                        </form>
                     {% else %}
-                        <a href="/auth/login/?next=/">Login</a>
+                        <a href="{% url 'login' %}">Login</a>
                     {% endif %}
                 </div>
             </div>
