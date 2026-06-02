@@ -16,10 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
+from src_app.views import RegisterFormView
 
 urlpatterns = [
-    #path('', lambda request: redirect('tasks_list')),
+    path('', lambda request: redirect('tasks_list')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', RegisterFormView.as_view(), name='register'),
     path('', include("src_app.urls")),
 ]

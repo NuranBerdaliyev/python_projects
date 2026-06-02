@@ -2,13 +2,21 @@
 #from django.shortcuts import render, redirect, get_object_or_404
 #from django.forms import modelform_factory
 #from django.urls import reverse
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
 from .models import Task, Category, Project
+from .forms import TaskForm, CategoryForm, ProjectForm
 class UserQuerySetMixin(LoginRequiredMixin):
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)
+
+class UserQuerySetTaskMixin(LoginRequiredMixin):
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user).select_related('project', 'category')
 
 class UserFormValidMixin(LoginRequiredMixin):
     def form_valid(self, form):
@@ -25,30 +33,40 @@ class TaskFormUserFilterMixin:
             user=self.request.user
         )
         return form
+
+class RegisterFormView(FormView):
+    template_name='registration/register.html'
+    form_class=UserCreationForm
+
+    def form_valid(self, form):
+        user=form.save()
+        login(self.request, user)
+        return redirect('tasks_list')
     
-class TaskListView(UserQuerySetMixin, ListView):
+
+class TaskListView(UserQuerySetTaskMixin, ListView):
     model=Task
     template_name='tasks/tasks_list.html'
     context_object_name='tasks'
 
-class TaskDetailView(UserQuerySetMixin, DetailView):
+class TaskDetailView(UserQuerySetTaskMixin, DetailView):
     model=Task
     template_name='tasks/tasks_detail.html'
 
 class TaskCreateView(UserFormValidMixin, TaskFormUserFilterMixin, CreateView):
     model=Task
     template_name='tasks/tasks_form.html'
-    fields=['title', 'description', 'status', 'priority', 'deadline', 'project', 'category']
+    form_class=TaskForm
     success_url=reverse_lazy('tasks_list')
 
-class TaskUpdateView(UserFormValidMixin, TaskFormUserFilterMixin, UpdateView):
+class TaskUpdateView(UserFormValidMixin, TaskFormUserFilterMixin, UserQuerySetTaskMixin, UpdateView):
     model=Task
     template_name='tasks/tasks_form.html'
-    fields=['title', 'description', 'status', 'priority', 'deadline', 'project', 'category']
+    form_class=TaskForm
     success_url=reverse_lazy('tasks_list')
     
     
-class TaskDeleteView(UserQuerySetMixin, DeleteView):
+class TaskDeleteView(UserQuerySetTaskMixin, DeleteView):
     model=Task
     template_name='tasks/tasks_delete.html'
     success_url=reverse_lazy('tasks_list')
@@ -70,13 +88,13 @@ class ProjectDetailView(UserQuerySetMixin, DetailView):
 class ProjectCreateView(UserFormValidMixin, CreateView):
     model=Project
     template_name='projects/projects_form.html'
-    fields=['name']
+    form_class=ProjectForm
     success_url=reverse_lazy('projects_list')
     
 class ProjectUpdateView(UserQuerySetMixin, UpdateView):
     model=Project
     template_name='projects/projects_form.html'
-    fields=['name']
+    form_class=ProjectForm
     success_url=reverse_lazy('projects_list')   
 
 class ProjectDeleteView(UserQuerySetMixin, DeleteView):
@@ -100,13 +118,13 @@ class CategoryDetailView(UserQuerySetMixin, DetailView):
 class CategoryCreateView(UserFormValidMixin, CreateView):
     model=Category
     template_name='categories/categories_form.html'
-    fields=['name']
+    form_class=CategoryForm
     success_url=reverse_lazy('categories_list')
 
 class CategoryUpdateView(UserQuerySetMixin, UpdateView):
     model=Category
     template_name='categories/categories_form.html'
-    fields=['name']
+    form_class=CategoryForm
     success_url=reverse_lazy('categories_list')
 
 class CategoryDeleteView(UserQuerySetMixin, DeleteView):

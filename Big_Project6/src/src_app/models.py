@@ -3,14 +3,16 @@ from django.contrib.auth.models import User
 class Project(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     name=models.CharField(max_length=255)
-
+    class Meta:
+        ordering=['name']
     def __str__(self):
         return self.name
 
 class Category(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     name=models.CharField(max_length=255)
-
+    class Meta:
+        ordering=['name']
     def __str__(self):
         return self.name
 
@@ -46,6 +48,7 @@ class Task(models.Model):
         default='medium')
     created_at=models.DateTimeField(auto_now_add=True)
     deadline=models.DateTimeField(null=True, blank=True)
-
+    class Meta:
+        ordering=['-created_at']
     def __str__(self):
         return self.title
